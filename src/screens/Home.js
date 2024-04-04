@@ -8,7 +8,10 @@ export default function Home({navigation}) {
     id:1,
     title: "Feel Good Inc.",
     group: "Gorillaz",
-    album_image:"https://th.bing.com/th/id/R.644ab768a52d09cc162c620ab769ef46?rik=qS72fq8XfJMwBg&pid=ImgRaw&r=0"
+    album_image:"https://th.bing.com/th/id/R.644ab768a52d09cc162c620ab769ef46?rik=qS72fq8XfJMwBg&pid=ImgRaw&r=0",
+    album:"Demon Days",
+    year:2005,
+    genre:"Alternative rock, hip hop, rap rock, funk rock"
   };
   return (
     <View style={styles.container}>
