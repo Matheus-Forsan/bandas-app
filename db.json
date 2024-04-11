@@ -180,6 +180,16 @@
       "music_path": "linkin-park-in-the-end.mp3",
       "year": 2003,
       "genre": "Alternative Rock"
+    },
+    {
+      "id": 19,
+      "title": "Feel Good Inc.",
+      "group": "Gorillaz",
+      "album": "Demon Days",
+      "album_image": "demon-days.jpg",
+      "music_path": "feel-good-inc.mp3",
+      "year": 2005,
+      "genre": "Alternative Rock"
     }
   ]
 }

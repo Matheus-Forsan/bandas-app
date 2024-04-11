@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { View, Text ,StyleSheet,StatusBar, FlatList} from "react-native";
 import MusicItem from "../components/MusicItem";
+import {Audio} from "expo-av"
 
 export default function Home({navigation}) {
   const [currentPlaying, setCurrentPlaying] = useState(null);
   const [musicData, setMusicData] = useState([]);
+  const [currentSound, setCurrentSound] = useState(null);
 
-  const item = {
-    id:1,
-    title: "Feel Good Inc.",
-    group: "Gorillaz",
-    album_image:"https://th.bing.com/th/id/R.644ab768a52d09cc162c620ab769ef46?rik=qS72fq8XfJMwBg&pid=ImgRaw&r=0",
-    album:"Demon Days",
-    year:2005,
-    genre:"Alternative rock"
-  };
+  const togglePlayPause = async (item) => {
+    if (currentSound && currentPlaying == item.id) {
+      await currentSound.pauseAsync();
+      setCurrentPlaying(null);
+      setCurrentSound(null);
+    } else {
+      if (currentSound) {
+        await currentSound.unloadAsync();
+      }
+      const {sound} = await Audio.Sound.createAsync(
+        {uri: `http://10.0.2.2:3000/musics/${item.music_path}`},
+        {shouldPlay: true}
+      );
+      setCurrentSound(sound);
+      setCurrentPlaying(item.id);
+
+    }
+  }
 
   useEffect(()=>{
     fetch("http://10.0.2.2:3000/musics")
@@ -26,11 +37,14 @@ export default function Home({navigation}) {
       <StatusBar barStyle="light-content" backgroundColor="#121212" />
       <Text style={styles.title}>Minhas Músicas</Text>
       
-      <FlatList data={musicData} keyExtractor={(item) => item.id.toString()} renderItem={({item})=> (<MusicItem
-      isPlaying={() => currentPlaying == item.id}
-      music={item}
-      navigation={navigation}
-      onPlayPause={() => {}}
+      <FlatList 
+      data={musicData} 
+      keyExtractor={(item) => item.id.toString()} 
+      renderItem={({item})=> (<MusicItem
+      isPlaying={currentPlaying === item.id}
+        music={item}
+        navigation={navigation}
+        onPlayPause={() => togglePlayPause(item)}
       />)}/>
     </View>
   );
